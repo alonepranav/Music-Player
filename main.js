@@ -11,7 +11,7 @@ let musicName = [
     "Arcade",
     "Enemy",
     "Infinity",
-    "let Me Down Slowly",
+    "Let Me Down Slowly",
     "Pasoori"
 ];
 
