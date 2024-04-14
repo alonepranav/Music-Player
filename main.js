@@ -2,7 +2,9 @@ let playPause = document.getElementById("playPause");
 let audio = document.getElementById("audio");
 let img = document.querySelector("img");
 let displayName = document.getElementById("paragraph");
-let path = "musicAndImages/";
+
+let imagePath = "./images";
+let musicPath = "./music";
 let index = 0;
 
 let musicName = [
@@ -21,39 +23,50 @@ let imageName = [
     "image5.jpg"
 ];
 
-audio.src = path + musicName[0] + ".mp3";
+audio.src = musicPath + "/" + musicName[0] + ".mp3";
 
-let button1 = document.getElementById("rewind");
-button1.addEventListener("click", () => {
+// Next song changing function
+const playNextSong = () => {
     if (index != 0) {
         index--;
-        audio.src = path + musicName[index] + ".mp3";
-        img.src = path + imageName[index];
+        audio.src = `${musicPath}/${musicName[index]}.mp3`;
+        img.src = `${imagePath}/${imageName[index]}`;
     }
+
     displayName.innerText = musicName[index];
     img.classList.add("rotate");
     audio.play();
-});
 
-let button2 = document.getElementById("forward");
-button2.addEventListener("click", () => {
+    if (playPause.classList.contains("bi-play-fill")) {
+        playPause.classList.replace("bi-play-fill", "bi-pause-fill");
+        playPause.classList.toggle("play");
+    }
+}
 
-    if (index == 5) {
+// Previous song changing function
+const playPreviousSong = () => {
+    if (index == 4) {
         index = 0;
-        audio.src = path + musicName[index] + ".mp3";
-        img.src = path + imageName[index];
+        audio.src = `${musicPath}/${musicName[index]}.mp3`;
+        img.src = `${imagePath}/${imageName[index]}`;
     } else {
         index++;
-        audio.src = path + musicName[index] + ".mp3";
-        img.src = path + imageName[index];
+        audio.src = `${musicPath}/${musicName[index]}.mp3`;
+        img.src = `${imagePath}/${imageName[index]}`;
     }
 
     displayName.innerText = musicName[index];
     img.classList.add("rotate");
     audio.play();
-});
 
-playPause.addEventListener("click", () => {
+    if (playPause.classList.contains("bi-play-fill")) {
+        playPause.classList.replace("bi-play-fill", "bi-pause-fill");
+        playPause.classList.toggle("play");
+    }
+}
+
+// Play - Pause function
+const playPause_Song = () => {
     if (playPause.classList.contains("play")) {
         playPause.classList.toggle("play");
         playPause.classList.replace("bi-play-fill", "bi-pause-fill");
@@ -67,4 +80,23 @@ playPause.addEventListener("click", () => {
     }
 
     displayName.innerText = musicName[index];
-});
+}
+
+// Keyboard key controls event function
+window.addEventListener("keydown", (e) => {
+
+    if (e.key == "ArrowRight")
+        playPreviousSong();
+    else if (e.key == "ArrowLeft")
+        playNextSong();
+    else if (e.key == " ")
+        playPause_Song()
+})
+
+let button1 = document.getElementById("rewind");
+button1.addEventListener("click", playNextSong);
+
+let button2 = document.getElementById("forward");
+button2.addEventListener("click", playPreviousSong);
+
+playPause.addEventListener("click", playPause_Song);
